@@ -1,4 +1,4 @@
-from flask import Flask, Response, make_response
+from flask import Flask, Response, make_response, request
 import xml.etree.ElementTree as ET
 
 import requests
@@ -7,16 +7,24 @@ from werkzeug.exceptions import BadRequest
 app = Flask(__name__)
 
 
-@app.route('/<id>')
 @app.route('/')
-def vast_parser(id=65617):
+@app.route('/<id>')
+def vast_parser(id=None):
     """
     Takes in the xml vast 2.0 request and relays it as vast 3.0
 
     :param id:
     :return:
     """
-    url = "http://ad4.liverail.com/?LR_PUBLISHER_ID=%s&LR_SCHEMA" % str(id)
+    publisher_id = None
+    if request.args.get('publisher_id'):
+        publisher_id = request.args.get('publisher_id')
+    elif id:
+        publisher_id = id
+    else:
+        return BadRequest()
+
+    url = "http://ad4.liverail.com/?LR_PUBLISHER_ID=%s&LR_SCHEMA" % str(publisher_id)
     print url
     vast_request = requests.get(url)
     if vast_request.status_code != 200:
