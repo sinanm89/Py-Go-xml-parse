@@ -1,5 +1,5 @@
 from flask import Flask, Response, make_response, request
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET # phone home
 
 import requests
 from werkzeug.exceptions import BadRequest
@@ -12,11 +12,9 @@ app = Flask(__name__)
 def vast_parser(id=None):
     """
     Takes in the xml vast 2.0 request and relays it as vast 3.0
-
-    :param id:
+    either :arg publisher_id: or :param id: exists
     :return:
     """
-    publisher_id = None
     if request.args.get('publisher_id'):
         publisher_id = request.args.get('publisher_id')
     elif id:
@@ -37,11 +35,10 @@ def vast_parser(id=None):
     vast.attrib['version'] = "3.0"
 
     # Generator will generate the singular item list
-    creatives = list(vast.iter('Creatives'))[0]
-    creatives.attrib["offset"]="00:00:08"
+    creatives = list(vast.iter('Linear'))[0]
+    creatives.attrib["skip_offset"]="00:00:08"
     return Response(ET.tostring(vast), mimetype='text/xml')
     # return vast
 
 if __name__ == '__main__':
-    app.debug = True
     app.run(host='0.0.0.0', port=5000, threaded=True)
