@@ -36,7 +36,7 @@ def vast_parser(id=None):
 
     # Generator will generate the singular item list
     creatives = list(vast.iter('Linear'))[0]
-    creatives.attrib["skip_offset"]="00:00:08"
+    creatives.attrib["skipoffset"]="00:00:08"
     return Response(ET.tostring(vast), mimetype='text/xml')
     # return vast
 
