@@ -13,11 +13,11 @@ def get_it(uri):
 def get_go():
     avg = 0
     for i in range(1,100):
-        avg += get_it("http://go-vast-parse.mobworkz.com/65617")
+        avg += get_it("http://127.0.0.1:8000/65617")
     return avg/100
 
 def get_py():
     avg = 0
     for i in range(1,100):
-        avg += get_it("http://vast-parse.mobworkz.com/65617")
+        avg += get_it("http://127.0.0.1:5000/65617")
     return avg/100
