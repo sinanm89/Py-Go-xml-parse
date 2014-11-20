@@ -1,7 +1,7 @@
 Py-Go-xml-parse
 ===============
 
-parse an xml response data with python and go and test response times.
+parse an xml response data with python and go and test response times. I chose xml because I need this to be as annoying as possible.
 
 
 How to Install:
